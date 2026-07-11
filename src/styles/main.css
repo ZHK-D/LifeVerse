@@ -24,3 +24,23 @@ body {
     background: black;
 
 }
+
+
+/*
+=================================
+
+LifeVerse Full Screen Canvas
+
+=================================
+*/
+html,
+body,
+#app {
+
+
+    width:100%;
+
+    height:100%;
+
+
+}

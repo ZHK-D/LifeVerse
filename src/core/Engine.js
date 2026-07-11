@@ -20,57 +20,100 @@
  */
 
 
+import Renderer from "../graphics/Renderer.js";
+
+import World from "../world/World.js";
+
+import Camera from "../graphics/Camera.js";
+
 class Engine {
 
 
-    /**
-     * 构造函数
-     *
-     * 创建Engine实例
-     */
     constructor(){
 
 
-        // 当前运行状态
-        this.running = false;
+        this.running=false;
+
+
+        // 获取网页容器
+        this.container =
+            document.querySelector("#app");
+
+        // 创建摄像机
+        this.camera =
+            new Camera();
 
 
     }
 
 
 
-    /**
-     * 初始化引擎
-     *
-     * 未来这里加载：
-     * - Renderer
-     * - World
-     * - AI系统
-     */
     init(){
 
 
         console.log(
-            "LifeVerse Engine Initialized"
+            "Initializing LifeVerse..."
         );
+
+
+
+        // 创建世界
+        this.world =
+            new World();
+
+
+
+        // 创建渲染器
+        this.renderer =
+            new Renderer(
+                this.container
+            );
 
 
     }
 
 
 
-    /**
-     * 启动引擎
-     */
+
     start(){
 
 
-        this.running = true;
+        this.running=true;
 
 
         console.log(
-            "LifeVerse Engine Started"
+            "LifeVerse Started"
         );
+
+
+
+        this.loop();
+
+
+    }
+
+
+
+
+    loop(){
+
+
+        requestAnimationFrame(
+            ()=>{
+                this.loop();
+            }
+        );
+
+
+
+        // 渲染当前世界
+        this.renderer
+            .getRenderer()
+            .render(
+                this.world.getScene(),
+                this.camera.getCamera()
+
+            );
 
 
     }
@@ -79,5 +122,5 @@ class Engine {
 }
 
 
-// 导出Engine
+
 export default Engine;
