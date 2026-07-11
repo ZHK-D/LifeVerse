@@ -26,6 +26,8 @@ import World from "../world/World.js";
 
 import Camera from "../graphics/Camera.js";
 
+import Time from "./Time.js";
+
 class Engine {
 
 
@@ -42,6 +44,10 @@ class Engine {
         // 创建摄像机
         this.camera =
             new Camera();
+
+        // 创建时间系统
+        this.time =
+            new Time();
 
 
     }
@@ -104,6 +110,9 @@ class Engine {
             }
         );
 
+
+        // 更新时间
+        this.time.update();
 
 
         // 渲染当前世界
