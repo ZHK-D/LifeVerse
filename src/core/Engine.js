@@ -28,6 +28,8 @@ import Camera from "../graphics/Camera.js";
 
 import Time from "./Time.js";
 
+import AnimationLoop from "../systems/AnimationLoop.js";
+
 class Engine {
 
 
@@ -49,6 +51,17 @@ class Engine {
         this.time =
             new Time();
 
+        // 创建动画循环
+        this.animationLoop =
+            new AnimationLoop(
+            () => {
+
+                this.update();
+
+                this.render();
+
+            }
+        );  
 
     }
 
@@ -93,37 +106,33 @@ class Engine {
 
 
 
-        this.loop();
+        this.animationLoop.start();
 
 
     }
 
 
 
+        /**
+     * 更新逻辑
+     */
+    update() {
 
-    loop(){
-
-
-        requestAnimationFrame(
-            ()=>{
-                this.loop();
-            }
-        );
-
-
-        // 更新时间
         this.time.update();
 
+    }
 
-        // 渲染当前世界
+    /**
+     * 渲染画面
+     */
+    render() {
+
         this.renderer
             .getRenderer()
             .render(
                 this.world.getScene(),
                 this.camera.getCamera()
-
             );
-
 
     }
 
