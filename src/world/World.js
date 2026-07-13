@@ -14,6 +14,7 @@
 import * as THREE from "three";
 import SceneManager from "../graphics/SceneManager.js";
 import StarField from "./galaxy/StarField.js";
+import Galaxy from "./galaxy/Galaxy.js";
 import CoreSphere from "./objects/CoreSphere.js";
 import SkySystem from "./environment/SkySystem.js";
 import AnimationManager from "../systems/AnimationManager.js";
@@ -43,7 +44,9 @@ class World {
         this.createLights();
 
         this.createStarField();
-
+        
+        this.createGalaxy();
+        
         this.createCore();
 
     }
@@ -95,6 +98,24 @@ class World {
         // 注册动画
         this.animationManager.add(
             this.starField
+        );
+
+    }
+
+    /**
+     * 创建银河
+     */
+    createGalaxy() {
+
+        this.galaxy = new Galaxy(8000);
+
+        this.scene.add(
+            this.galaxy.getObject()
+        );
+
+        // 注册动画
+        this.animationManager.add(
+            this.galaxy
         );
 
     }
