@@ -31,6 +31,8 @@ class Galaxy {
 
         const colors = [];
 
+        const scales = [];
+
         const colorInside = new THREE.Color(0x44ccff);
 
         const colorOutside = new THREE.Color(0xffffff);
@@ -67,6 +69,10 @@ class Galaxy {
                 color.g,
                 color.b
             );
+            
+            scales.push(
+                Math.random()
+            );
 
         }
 
@@ -83,6 +89,14 @@ class Galaxy {
             new THREE.Float32BufferAttribute(
                 colors,
                 3
+            )
+        );
+
+        geometry.setAttribute(
+            "aScale",
+            new THREE.Float32BufferAttribute(
+                scales,
+                1
             )
         );
 

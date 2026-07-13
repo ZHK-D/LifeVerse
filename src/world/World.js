@@ -16,6 +16,7 @@ import SceneManager from "../graphics/SceneManager.js";
 import StarField from "./galaxy/StarField.js";
 import Galaxy from "./galaxy/Galaxy.js";
 import CoreSphere from "./objects/CoreSphere.js";
+import Planet from "./objects/Planet.js";
 import SkySystem from "./environment/SkySystem.js";
 import AnimationManager from "../systems/AnimationManager.js";
 
@@ -46,8 +47,10 @@ class World {
         this.createStarField();
         
         this.createGalaxy();
-        
+
         this.createCore();
+
+        this.createPlanet();
 
     }
 
@@ -136,6 +139,24 @@ class World {
         // 注册动画
         this.animationManager.add(
             this.core
+        );
+
+    }
+
+    /**
+     * 创建行星
+     */
+    createPlanet() {
+
+        this.planet = new Planet();
+
+        this.scene.add(
+            this.planet.getObject()
+        );
+
+        // 注册动画
+        this.animationManager.add(
+            this.planet
         );
 
     }
