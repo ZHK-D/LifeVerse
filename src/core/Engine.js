@@ -32,6 +32,8 @@ import AnimationLoop from "../systems/AnimationLoop.js";
 
 import Controls from "../graphics/Controls.js";
 
+import PostProcessor from "../graphics/postprocessing/PostProcessor.js";
+
 class Engine {
 
 
@@ -85,9 +87,14 @@ class Engine {
 
 
         // 创建渲染器
-        this.renderer =
-            new Renderer(
-                this.container
+        this.renderer = new Renderer(
+            this.container
+        );
+
+        // 创建后期处理器
+        this.postProcessor =
+            new PostProcessor(
+                this.renderer.getRenderer()
             );
 
         // 创建鼠标控制器
@@ -153,12 +160,13 @@ class Engine {
      */
     render() {
 
-        this.renderer
-            .getRenderer()
-            .render(
-                this.world.getScene(),
-                this.camera.getCamera()
-            );
+        this.postProcessor.render(
+
+            this.world.getScene(),
+
+            this.camera.getCamera()
+
+        );
 
     }
 
