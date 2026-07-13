@@ -1,8 +1,12 @@
 /**
  * =========================================
- * LifeVerse Camera Controls
+ * LifeVerse Orbit Controls
  *
- * OrbitControls
+ * 文件：
+ * Controls.js
+ *
+ * 功能：
+ * 管理鼠标控制
  *
  * =========================================
  */
@@ -21,18 +25,16 @@ class Controls {
 
         );
 
-        // 开启阻尼（更丝滑）
+        // 开启阻尼（更加丝滑）
         this.controls.enableDamping = true;
 
-        // 阻尼系数
         this.controls.dampingFactor = 0.05;
 
-        // 禁止飞到物体里面
+        // 缩放距离
         this.controls.minDistance = 2;
+        this.controls.maxDistance = 80;
 
-        this.controls.maxDistance = 50;
-
-        // 限制上下旋转角度
+        // 防止翻转
         this.controls.maxPolarAngle = Math.PI;
 
     }

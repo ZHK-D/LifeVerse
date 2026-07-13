@@ -90,7 +90,7 @@ class Engine {
                 this.container
             );
 
-        //创建控制
+        // 创建鼠标控制器
         this.controls =
             new Controls(
 
@@ -132,13 +132,21 @@ class Engine {
 
         this.time.update();
 
-        this.world.update(
-            this.time.deltaTime
-        );
+        if (this.world) {
 
-        this.controls.update();
+            this.world.update(
+                this.time.deltaTime
+            );
 
-}
+        }
+
+        if (this.controls) {
+
+            this.controls.update();
+
+        }
+
+    }
 
     /**
      * 渲染画面
