@@ -16,6 +16,7 @@ import SceneManager from "../graphics/SceneManager.js";
 import StarField from "./galaxy/StarField.js";
 import CoreSphere from "./objects/CoreSphere.js";
 import SkySystem from "./environment/SkySystem.js";
+import AnimationManager from "../systems/AnimationManager.js";
 
 
 class World {
@@ -33,7 +34,11 @@ class World {
             new SkySystem(
                 this.scene
             );
-
+        
+        // 创建动画管理器
+        this.animationManager =
+            new AnimationManager();
+            
         // 初始化
         this.createLights();
 
@@ -87,6 +92,11 @@ class World {
             this.starField.getObject()
         );
 
+        // 注册动画
+        this.animationManager.add(
+            this.starField
+        );
+
     }
 
     /**
@@ -100,6 +110,11 @@ class World {
 
             this.core.getObject()
 
+        );
+
+        // 注册动画
+        this.animationManager.add(
+            this.core
         );
 
     }
@@ -142,23 +157,12 @@ class World {
     /**
      * 更新世界
      */
-    update(deltaTime){
+    update(deltaTime) {
 
-        if(this.core){
+        this.animationManager.update(
+            deltaTime
+        );
 
-            this.core.update(
-                deltaTime
-            );
-
-        }
-
-        if(this.starField){
-
-            this.starField.update(
-                deltaTime
-            );
-
-        }
     }
 
     /**

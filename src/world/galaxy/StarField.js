@@ -30,10 +30,10 @@ class StarField {
 
         this.time = 0;
 
-
         this.points =
             this.createStars(count);
-
+        
+        this.time = 0;
 
     }
 
@@ -239,11 +239,20 @@ class StarField {
 
     }
 
+        /**
+     * 更新星空
+     */
+    update(deltaTime) {
 
+        this.time += deltaTime;
 
+        // 整个星空缓慢旋转
+        this.points.rotation.y += deltaTime * 0.01;
 
+        this.points.rotation.x =
+            Math.sin(this.time * 0.05) * 0.03;
 
-
+    }
 
     getObject(){
 
