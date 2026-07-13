@@ -6,83 +6,160 @@
  * World.js
  *
  * 功能：
- * 管理3D世界
- *
- * 当前：
- * 创建基础Scene
+ * 管理整个3D世界
  *
  * =========================================
  */
 
-
 import * as THREE from "three";
-
-
+import SceneManager from "../graphics/SceneManager.js";
+import StarField from "./galaxy/StarField.js";
+import CoreSphere from "./objects/CoreSphere.js";
 
 class World {
 
+    constructor() {
 
-    constructor(){
+        // 场景管理器
+        this.sceneManager = new SceneManager();
 
+        // Scene
+        this.scene = this.sceneManager.getScene();
 
-        // 创建3D场景
-        this.scene =
-            new THREE.Scene();
+        // 背景
+        this.scene.background = new THREE.Color(0x050510);
 
+        // 初始化
+        this.createLights();
 
+        this.createStarField();
 
-        // 设置背景颜色
-        this.scene.background =
-            new THREE.Color(
-                0x000000
+        this.createCore();
+
+    }
+
+    /**
+     * 创建灯光
+     */
+    createLights() {
+
+        const ambientLight =
+            new THREE.AmbientLight(
+                0xffffff,
+                1.2
             );
 
+        this.scene.add(
+            ambientLight
+        );
 
-        // 创建测试立方体几何体
+        const directionalLight =
+            new THREE.DirectionalLight(
+                0xffffff,
+                2
+            );
+
+        directionalLight.position.set(
+            5,
+            5,
+            5
+        );
+
+        this.scene.add(
+            directionalLight
+        );
+
+    }
+
+    /**
+     * 创建星空
+     */
+    createStarField() {
+
+        this.starField = new StarField(3000);
+
+        this.scene.add(
+            this.starField.getObject()
+        );
+
+    }
+
+    /**
+     * 创建中心
+     */
+    createCore(){
+
+        this.core = new CoreSphere();
+
+        this.scene.add(
+
+            this.core.getObject()
+
+        );
+
+    }
+
+    /**
+     * 创建测试立方体
+     */
+    createCube() {
+
         const geometry =
-            new THREE.BoxGeometry();
+            new THREE.BoxGeometry(
+                1,
+                1,
+                1
+            );
 
-
-        // 创建材质
         const material =
-            new THREE.MeshBasicMaterial({
-                color:0x00ffff
+            new THREE.MeshStandardMaterial({
+
+                color:0x00ffff,
+
+                metalness:0.5,
+
+                roughness:0.3
+
             });
 
-
-        // 创建Mesh
-        const cube =
+        this.cube =
             new THREE.Mesh(
                 geometry,
                 material
             );
 
-
-        // 加入世界
-        this.scene.add(
-            cube
+        this.sceneManager.add(
+            this.cube
         );
-
 
     }
 
+    /**
+     * 更新世界
+     */
+    update(deltaTime) {
 
+        if(this.core){
 
+            this.core.update(
+
+                deltaTime
+
+            );
+
+        }
+
+    }
 
     /**
-     * 返回场景
+     * 返回Scene
      */
-    getScene(){
-
+    getScene() {
 
         return this.scene;
 
-
     }
 
-
 }
-
-
 
 export default World;

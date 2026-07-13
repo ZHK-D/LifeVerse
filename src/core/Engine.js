@@ -30,6 +30,8 @@ import Time from "./Time.js";
 
 import AnimationLoop from "../systems/AnimationLoop.js";
 
+import Controls from "../graphics/Controls.js";
+
 class Engine {
 
 
@@ -88,6 +90,16 @@ class Engine {
                 this.container
             );
 
+        //创建控制
+        this.controls =
+            new Controls(
+
+                this.camera.getCamera(),
+
+                this.renderer.getRenderer()
+
+        );
+
 
     }
 
@@ -120,7 +132,13 @@ class Engine {
 
         this.time.update();
 
-    }
+        this.world.update(
+            this.time.deltaTime
+        );
+
+        this.controls.update();
+
+}
 
     /**
      * 渲染画面
