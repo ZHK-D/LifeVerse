@@ -8,13 +8,8 @@
  * 功能：
  * 管理Three.js渲染器
  *
- * 负责：
- * 1. 创建WebGL Renderer
- * 2. 设置画布
- * 3. 管理窗口变化
- *
- * 作者：
- * ZHK-D
+ * 新增：
+ * EffectComposer 后期处理系统
  *
  * =========================================
  */
@@ -24,52 +19,154 @@
 import * as THREE from "three";
 
 
+// 导入后期处理
+import PostProcessor from "../graphics/postprocessing/PostProcessor.js";
+
+
+
 
 class Renderer {
+
 
 
     /**
      * 创建渲染器
      *
      * @param {HTMLElement} container
-     * 页面容器
      */
     constructor(container){
+
 
 
         // 创建WebGL渲染器
         this.renderer =
             new THREE.WebGLRenderer({
+
                 antialias:true
+
             });
 
 
 
-        // 设置屏幕尺寸
+        // 高清屏幕适配
+        this.renderer.setPixelRatio(
+
+            window.devicePixelRatio
+
+        );
+
+
+
+        // 设置尺寸
         this.renderer.setSize(
+
             window.innerWidth,
+
             window.innerHeight
+
         );
 
 
 
-        // 添加到网页
+        // 添加Canvas
         container.appendChild(
+
             this.renderer.domElement
+
         );
 
 
 
-        // 监听窗口变化
+
+
+        /**
+         * 创建后期处理系统
+         *
+         * WebGLRenderer
+         *
+         *        |
+         *
+         *        ↓
+         *
+         * EffectComposer
+         *
+         */
+        this.postProcessor =
+            new PostProcessor(
+
+                this.renderer
+
+            );
+
+
+
+
+        /**
+         * 初始化 Composer 尺寸
+         *
+         * 修复：
+         *
+         * Framebuffer incomplete
+         *
+         * Attachment has zero size
+         *
+         */
+        this.postProcessor.resize(
+
+            window.innerWidth,
+
+            window.innerHeight
+
+        );
+
+
+
+
+        // 窗口变化监听
         window.addEventListener(
+
             "resize",
+
             ()=>{
+
                 this.resize();
+
             }
+
         );
 
 
     }
+
+
+
+
+
+
+
+    /**
+     * 渲染场景
+     *
+     * @param scene
+     * @param camera
+     */
+    render(scene,camera){
+
+
+        this.postProcessor.render(
+
+            scene,
+
+            camera
+
+        );
+
+
+    }
+
+
+
+
 
 
 
@@ -80,13 +177,53 @@ class Renderer {
     resize(){
 
 
+
+        const width =
+            window.innerWidth;
+
+
+        const height =
+            window.innerHeight;
+
+
+
+
+        // WebGL尺寸
+
+        this.renderer.setPixelRatio(
+
+            window.devicePixelRatio
+
+        );
+
+
         this.renderer.setSize(
-            window.innerWidth,
-            window.innerHeight
+
+            width,
+
+            height
+
+        );
+
+
+
+
+        // Composer尺寸同步
+
+        this.postProcessor.resize(
+
+            width,
+
+            height
+
         );
 
 
     }
+
+
+
+
 
 
 
@@ -101,6 +238,7 @@ class Renderer {
 
 
     }
+
 
 
 }

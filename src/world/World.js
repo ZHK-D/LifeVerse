@@ -15,6 +15,8 @@ import * as THREE from "three";
 import SceneManager from "../graphics/SceneManager.js";
 import StarField from "./galaxy/StarField.js";
 import CoreSphere from "./objects/CoreSphere.js";
+import SkySystem from "./environment/SkySystem.js";
+
 
 class World {
 
@@ -27,7 +29,10 @@ class World {
         this.scene = this.sceneManager.getScene();
 
         // 背景
-        this.scene.background = new THREE.Color(0x050510);
+        this.sky =
+            new SkySystem(
+                this.scene
+            );
 
         // 初始化
         this.createLights();
@@ -137,18 +142,23 @@ class World {
     /**
      * 更新世界
      */
-    update(deltaTime) {
+    update(deltaTime){
 
         if(this.core){
 
             this.core.update(
-
                 deltaTime
-
             );
 
         }
 
+        if(this.starField){
+
+            this.starField.update(
+                deltaTime
+            );
+
+        }
     }
 
     /**

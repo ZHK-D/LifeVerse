@@ -8,40 +8,21 @@
  * 功能：
  * 管理整个LifeVerse生命周期
  *
- * 负责：
- * 1. 初始化系统
- * 2. 启动程序
- * 3. 更新循环
- *
- * 作者：
- * ZHK-D
- *
  * =========================================
  */
 
-
 import Renderer from "../graphics/Renderer.js";
-
 import World from "../world/World.js";
-
 import Camera from "../graphics/Camera.js";
-
 import Time from "./Time.js";
-
 import AnimationLoop from "../systems/AnimationLoop.js";
-
 import Controls from "../graphics/Controls.js";
-
-import PostProcessor from "../graphics/postprocessing/PostProcessor.js";
 
 class Engine {
 
+    constructor() {
 
-    constructor(){
-
-
-        this.running=false;
-
+        this.running = false;
 
         // 获取网页容器
         this.container =
@@ -58,43 +39,34 @@ class Engine {
         // 创建动画循环
         this.animationLoop =
             new AnimationLoop(
-            () => {
+                () => {
 
-                this.update();
+                    this.update();
 
-                this.render();
+                    this.render();
 
-            }
-        );  
+                }
+            );
 
     }
 
-
-
-    init(){
-
+    /**
+     * 初始化
+     */
+    init() {
 
         console.log(
             "Initializing LifeVerse..."
         );
 
-
-
         // 创建世界
         this.world =
             new World();
 
-
-
         // 创建渲染器
-        this.renderer = new Renderer(
-            this.container
-        );
-
-        // 创建后期处理器
-        this.postProcessor =
-            new PostProcessor(
-                this.renderer.getRenderer()
+        this.renderer =
+            new Renderer(
+                this.container
             );
 
         // 创建鼠标控制器
@@ -105,34 +77,26 @@ class Engine {
 
                 this.renderer.getRenderer()
 
-        );
-
+            );
 
     }
 
+    /**
+     * 启动
+     */
+    start() {
 
-
-
-    start(){
-
-
-        this.running=true;
-
+        this.running = true;
 
         console.log(
             "LifeVerse Started"
         );
 
-
-
         this.animationLoop.start();
-
 
     }
 
-
-
-        /**
+    /**
      * 更新逻辑
      */
     update() {
@@ -142,7 +106,9 @@ class Engine {
         if (this.world) {
 
             this.world.update(
+
                 this.time.deltaTime
+
             );
 
         }
@@ -156,11 +122,11 @@ class Engine {
     }
 
     /**
-     * 渲染画面
+     * 渲染
      */
     render() {
 
-        this.postProcessor.render(
+        this.renderer.render(
 
             this.world.getScene(),
 
@@ -170,9 +136,6 @@ class Engine {
 
     }
 
-
 }
-
-
 
 export default Engine;
