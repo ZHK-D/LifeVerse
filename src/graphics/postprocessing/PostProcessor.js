@@ -13,6 +13,7 @@
 
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 
 class PostProcessor {
 
@@ -35,8 +36,30 @@ class PostProcessor {
             this.renderPass
         );
 
+        this.outputPass =
+            new OutputPass();
+
+        this.composer.addPass(
+            this.outputPass
+        );
+
     }
 
+     /**
+     * 调整渲染尺寸
+     */
+    resize(width, height) {
+
+        this.composer.setSize(
+            width,
+            height
+        );
+
+    }
+
+    /**
+     * 渲染
+     */
     render(scene, camera) {
 
         this.renderPass.scene = scene;
@@ -45,7 +68,6 @@ class PostProcessor {
         this.composer.render();
 
     }
-
 }
 
 export default PostProcessor;
